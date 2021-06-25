@@ -38,12 +38,19 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     python2 \
     python3-pip \
+    python3-setuptools \
     texlive-latex-extra \
     ghostscript \
     graphviz \
     wget \
     ca-certificates \
     curl \
+    patchelf \
+    desktop-file-utils \
+    libgdk-pixbuf2.0-dev \
+    fakeroot \
+    strace \
+    fuse \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.tar.gz \
