@@ -53,3 +53,6 @@ RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.
     && pip install .
 
 COPY --from=0 /usr/local/bin/doxygen /usr/local/bin/doxygen
+
+ENV PATH=${PATH}:/cxxtest-4.4
+
