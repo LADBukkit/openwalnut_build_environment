@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     graphviz \
     wget \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.tar.gz \
