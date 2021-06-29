@@ -52,6 +52,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libjpeg62-dev \
     patchelf \
     file \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.tar.gz \
@@ -63,7 +64,6 @@ RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.
 COPY --from=0 /usr/local/bin/doxygen /usr/local/bin/doxygen
 COPY --from=1 /usr/local/bin/linuxdeploy /usr/local/bin/linuxdeploy
 COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-qt
-#COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-appimage
 
 ENV PATH=${PATH}:/cxxtest-4.4
 
