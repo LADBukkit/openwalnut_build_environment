@@ -22,6 +22,10 @@ RUN git clone https://github.com/doxygen/doxygen.git \
     && make install
 
 
+## Copying linuxdeploy
+FROM appimagecrafters/docker-linuxdeploy:latest
+
+
 ## Build environment for OpenWalnut
 FROM ubuntu:focal
 
@@ -45,12 +49,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     wget \
     ca-certificates \
     curl \
+    libjpeg62-dev \
     patchelf \
-    desktop-file-utils \
-    libgdk-pixbuf2.0-dev \
-    fakeroot \
-    strace \
-    fuse \
+    file \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.tar.gz \
@@ -60,6 +61,9 @@ RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.
     && pip install .
 
 COPY --from=0 /usr/local/bin/doxygen /usr/local/bin/doxygen
+COPY --from=1 /usr/local/bin/linuxdeploy /usr/local/bin/linuxdeploy
+COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-qt
+#COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-appimage
 
 ENV PATH=${PATH}:/cxxtest-4.4
 
