@@ -76,6 +76,8 @@ COPY --from=0 /usr/local/lib/libboost*.so /usr/local/lib/
 COPY --from=1 /usr/local/bin/linuxdeploy /usr/local/bin/linuxdeploy
 COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-qt
 
+RUN for file in /usr/local/lib/libboost*; do ln -s "$file" "$file.1.75.0"; done;
+
 ENV PATH=${PATH}:/cxxtest-4.4
 
 
