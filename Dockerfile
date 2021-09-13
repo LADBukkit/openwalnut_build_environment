@@ -28,14 +28,7 @@ RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_
     && tar -xf boost_1_75_0.tar.gz \
     && cd boost_1_75_0 \
     && ./bootstrap.sh \
-    && ./b2 install \
-    	--with-program_options \
-    	--with-thread \
-    	--with-filesystem \
-    	--with-date_time \
-    	--with-system \
-    	--with-regex \
-    	--with-python
+    && ./b2 install
 
 
 ## Copying linuxdeploy
