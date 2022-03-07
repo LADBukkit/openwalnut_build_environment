@@ -41,9 +41,10 @@ FROM ubuntu:focal
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
     cmake \
-    qtdeclarative5-dev \
-    qtwebengine5-dev \
-    libqt5opengl5-dev \
+    libxcomposite-dev \
+    libxdamage-dev \
+    libxtst-dev \
+    libxkbfile-dev \
     libopenscenegraph-dev \
     libeigen3-dev \
     libnifti-dev \
@@ -71,6 +72,11 @@ RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.
     && cd cxxtest-4.4/python \
     && pip install .
 
+## Install QT6
+RUN pip install -U pip \
+    && pip install aqtinstall \
+    && aqt install-qt linux desktop 6.2.0 -m all
+
 COPY --from=0 /usr/local/bin/doxygen /usr/local/bin/doxygen
 COPY --from=0 /usr/local/include/boost/ usr/local/include/boost/
 COPY --from=0 /usr/local/lib/libboost*.so /usr/local/lib/
@@ -79,6 +85,7 @@ COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-pl
 
 RUN for file in /usr/local/lib/libboost*; do ln -s "$file" "$file.1.75.0"; done;
 
-ENV PATH=${PATH}:/cxxtest-4.4
+ENV PATH=${PATH}:/cxxtest-4.4:/6.2.0/gcc_64/bin/
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+ENV Qt6_DIR=/6.2.0/gcc_64/lib/cmake/Qt6
 
