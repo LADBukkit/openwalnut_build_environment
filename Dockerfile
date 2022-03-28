@@ -30,6 +30,10 @@ RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_
     && ./bootstrap.sh \
     && ./b2 install
 
+# OpenVR
+RUN wget https://github.com/ValveSoftware/openvr/archive/refs/tags/v1.16.8.tar.gz \
+    && tar -xf v1.16.8.tar.gz
+
 
 ## Copying linuxdeploy
 FROM appimagecrafters/docker-linuxdeploy:latest
@@ -62,18 +66,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     patchelf \
     file \
     git \
-    libopenvr-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://sourceforge.net/projects/cxxtest/files/cxxtest/4.4/cxxtest-4.4.tar.gz \
-    && gunzip cxxtest-4.4.tar.gz \
-    && tar -xf cxxtest-4.4.tar \
+    && tar -xf cxxtest-4.4.tar.gz \
     && cd cxxtest-4.4/python \
-    && pip install .
+    && pip install . \
+    && cd ../.. \
+    && rm -f cxxtest-4.4.tar.gz
+
 
 COPY --from=0 /usr/local/bin/doxygen /usr/local/bin/doxygen
 COPY --from=0 /usr/local/include/boost/ usr/local/include/boost/
 COPY --from=0 /usr/local/lib/libboost*.so /usr/local/lib/
+COPY --from=0 /openvr-1.16.8/lib/linux64/libopenvr_api.so /usr/lib/x86_64-linux-gnu
+COPY --from=0 /openvr-1.16.8/bin/linux64/ /usr/bin/openvr
+COPY --from=0 /openvr-1.16.8/headers/ /usr/include/openvr
 COPY --from=1 /usr/local/bin/linuxdeploy /usr/local/bin/linuxdeploy
 COPY --from=1 /usr/local/bin/linuxdeploy-plugin-qt /usr/local/bin/linuxdeploy-plugin-qt
 
